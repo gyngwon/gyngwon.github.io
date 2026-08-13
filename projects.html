@@ -3,17 +3,18 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Projects — Gyeongwon "Wony" Song</title>
+<title>Projects — Wony</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,450;9..144,500&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css" />
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 </head>
 <body>
 
 <header class="site">
   <div class="wrap">
     <div class="brand-row">
-      <span class="brand"><strong>gwsong</strong>.dev</span>
+      <span class="brand"><strong>wony</strong>.dev</span>
       <span class="brand">Milan, Italy · Open to relocation</span>
     </div>
 
@@ -64,114 +65,354 @@
 <main>
   <div class="wrap">
     <p class="eyebrow">// projects</p>
-    <h1>Flagship project, plus a running SQL learning log.</h1>
+    <h1>Four things, each covering different ground.</h1>
     <p class="lede">
-      One project, built deep rather than wide — it covers the full path from raw
-      data to a business-ready dashboard, so it speaks to Analytics Engineer, Data
-      Engineer, and Data Analyst reviewers at the same time.
+      One flagship built deep, two supporting projects chosen for contrast —
+      batch vs. streaming, AWS-adjacent vs. GCP — and a running SQL practice
+      log. Click one below to open it.
     </p>
 
-    <!-- ============ FLAGSHIP PROJECT ============ -->
-    <section class="project-block">
-      <p class="eyebrow" style="margin-bottom:2px;">01 · flagship</p>
-      <h2>Credit Risk Data Pipeline</h2>
-      <p style="color:var(--text-dim); margin-bottom:14px;">
-        Raw loan-level data → tested dbt Star Schema → orchestrated pipeline → Power BI dashboard,
-        modeled on the credit &amp; A/R workflow from my LG Chem Europe internship.
-      </p>
+    <!-- ============ TABS ============ -->
+    <div class="project-tabs" role="tablist" aria-label="Select a project">
+      <button class="project-tab active" data-id="credit-risk" role="tab" aria-selected="true">
+        <span class="tab-title">01 · Credit Risk Pipeline</span>
+        <span class="tab-sub">flagship · dbt, Airflow, Power BI</span>
+      </button>
+      <button class="project-tab" data-id="weather" role="tab" aria-selected="false">
+        <span class="tab-title">02 · Weather Monitoring</span>
+        <span class="tab-sub">streaming · Kafka, Spark, Docker</span>
+      </button>
+      <button class="project-tab" data-id="cricket" role="tab" aria-selected="false">
+        <span class="tab-title">03 · GCP Cricket Stats</span>
+        <span class="tab-sub">cloud-native · BigQuery, Composer, Looker</span>
+      </button>
+      <button class="project-tab" data-id="sql-log" role="tab" aria-selected="false">
+        <span class="tab-title">04 · SQL Challenge</span>
+        <span class="tab-sub">learning log · Danny Ma, 8 weeks</span>
+      </button>
+    </div>
 
-      <div class="project-meta">
-        <span class="tag">SQL</span>
-        <span class="tag">dbt</span>
-        <span class="tag">BigQuery / DuckDB</span>
-        <span class="tag">Airflow</span>
-        <span class="tag">Power BI</span>
-      </div>
+    <!-- ============ PANEL 01: CREDIT RISK PIPELINE ============ -->
+    <div class="project-panel" data-id="credit-risk" role="tabpanel">
+      <section class="project-block" style="margin-bottom:32px;">
+        <h2>Credit Risk Analytics Pipeline</h2>
+        <p style="color:var(--text-dim); margin-bottom:14px;">
+          Raw Lending Club loan data → tested dbt Star Schema (4 dimensions) → orchestrated
+          pipeline → Power BI dashboard, modeled on the credit &amp; A/R workflow from my
+          LG Chem Europe internship.
+        </p>
 
-      <p class="section-label">architecture</p>
-      <pre>Source (Kaggle Lending Club CSV)
-   │
-   ▼
-Staging layer (dbt)         — typing, renaming, null handling
-   │
-   ▼
-Intermediate layer (dbt)    — maturity-based sampling (loans issued 5+ yrs
-   │                           before dataset's latest date → realistic
-   │                           ~15% default rate)
-   ▼
-Mart layer — Star Schema    — fact_loans + dim_borrower, dim_date, dim_grade
-   │                           dbt tests: not_null, unique, relationships
-   ▼
-Orchestration (Airflow)     — scheduled/dependency-managed runs
-   │
-   ▼
-Power BI dashboard          — default rate, exposure, delinquency views</pre>
-
-      <p class="section-label">why this design</p>
-      <p style="max-width:64ch; font-size:14.5px;">
-        The dataset was deliberately sampled by loan maturity rather than used raw —
-        taking only loans issued 5+ years before the dataset's latest date gives
-        every loan time to reach a final status, producing a realistic ~15% default
-        rate instead of an inflated one from including still-open loans. That
-        judgment call is documented in the dbt model itself, not just the README.
-      </p>
-
-      <p class="section-label">data quality</p>
-      <p style="max-width:64ch; font-size:14.5px;">
-        Every mart-layer model is covered by dbt tests (<code>not_null</code>,
-        <code>unique</code>, <code>relationships</code>) so a broken source feed
-        fails the pipeline run instead of silently corrupting the dashboard —
-        the same guarantee an Order-to-Cash team needs before trusting an aging
-        report.
-      </p>
-
-      <p class="section-label">status</p>
-      <p style="max-width:64ch; font-size:14.5px;">
-        Staging, intermediate, and mart layers complete. Airflow orchestration
-        and the Power BI dashboard are in progress. A planned add-on uses the
-        Claude API to summarize dbt test failures into plain-language alerts.
-      </p>
-
-      <div class="link-row" style="margin-top:8px;">
-        <a href="https://github.com/" target="_blank" rel="noopener">↗ Source (GitHub)</a>
-        <a href="#" target="_blank" rel="noopener">↗ dbt docs</a>
-        <a href="#" target="_blank" rel="noopener">↗ Dashboard</a>
-      </div>
-    </section>
-
-    <!-- ============ LEARNING LOG ============ -->
-    <section class="project-block">
-      <p class="eyebrow" style="margin-bottom:2px;">02 · learning log</p>
-      <h2>8 Week SQL Challenge (Danny Ma)</h2>
-      <p style="max-width:64ch; font-size:14.5px; margin-bottom:14px;">
-        A running log of solutions and notes, not a showcase project — kept public
-        as evidence of consistent SQL practice.
-      </p>
-      <div class="tbl">
-        <div class="tbl-head"><span class="dot"></span> sql_log</div>
-        <div class="tbl-row">
-          <span class="field-name">source</span>
-          <span class="field-value">Danny Ma — 8 Week SQL Challenge</span>
+        <div class="project-meta">
+          <span class="tag">Python (Polars)</span>
+          <span class="tag">DuckDB / BigQuery</span>
+          <span class="tag">dbt</span>
+          <span class="tag">Airflow</span>
+          <span class="tag">GitHub Actions</span>
+          <span class="tag">Power BI</span>
         </div>
-        <div class="tbl-row">
-          <span class="field-name">format</span>
-          <span class="field-value">Per-case study SQL scripts + short write-ups</span>
+
+        <p class="section-label">architecture</p>
+        <div class="mermaid">
+flowchart LR
+    A[Lending Club CSV] -->|Python/Polars extract| B[(Raw Layer)]
+    B -->|dbt staging| C[Staging]
+    C -->|dbt intermediate| D[Intermediate]
+    D -->|dbt mart| E[Mart: Star Schema]
+    E --> F[Power BI]
+    G[Airflow DAG] -.orchestrates.-> A
+    G -.-> C
+    G -.-> H[dbt test]
+    H -.validates.-> E
+    I[GitHub Actions CI] -.runs on PR.-> H
         </div>
-        <div class="tbl-row">
-          <span class="field-name">repo</span>
-          <span class="field-value"><a href="https://github.com/" target="_blank" rel="noopener">github.com/…/sql-8wk-challenge ↗</a></span>
+
+        <p class="section-label">data model — star schema</p>
+        <div class="mermaid">
+erDiagram
+    fct_loans }o--|| dim_borrowers : has
+    fct_loans }o--|| dim_credit_profile : has
+    fct_loans }o--|| dim_loan_product : has
+    fct_loans }o--|| dim_date : issued_on
+
+    fct_loans {
+        string loan_id PK
+        float loan_amount
+        float interest_rate
+        boolean is_default
+    }
+    dim_borrowers {
+        string borrower_id PK
+        string state
+        string home_ownership
+    }
+    dim_credit_profile {
+        string credit_profile_id PK
+        string grade
+        string dti_bucket
+    }
+    dim_loan_product {
+        string product_id PK
+        int term_months
+        string purpose
+    }
         </div>
-      </div>
-    </section>
+
+        <p class="section-label">key design decisions</p>
+        <p style="max-width:64ch; font-size:14.5px;">
+          <strong>Maturity-based sampling</strong> — loans need time to reach a terminal status
+          (max term is 60 months). An initial recency-biased sample produced an unrealistic
+          ~0.02% default rate, since most loans were still <code>Current</code>. Filtering to
+          loans issued 5+ years before the dataset's latest date turned this into a realistic
+          ~15% overall default rate.
+        </p>
+        <p style="max-width:64ch; font-size:14.5px;">
+          <strong>Deterministic surrogate keys</strong> — the source dataset's ID columns are
+          scrubbed for privacy. A hash of distinguishing columns still produced duplicate keys
+          (up to 56 collisions on identical loan terms), which caused a join explosion in
+          <code>fct_loans</code> against three dimension tables. Adding
+          <code>row_number() over (partition by loan_hash)</code> into the hash guarantees
+          mathematical uniqueness instead of relying on low collision probability.
+        </p>
+
+        <p class="section-label">data quality</p>
+        <p style="max-width:64ch; font-size:14.5px;">
+          17 dbt tests run on every execution: schema tests (uniqueness, not-null on primary
+          keys, referential integrity across all three dimension joins) plus custom
+          business-rule tests — funded amount never exceeds requested loan amount, interest
+          rates fall within a realistic range.
+        </p>
+
+        <p class="section-label">validated results</p>
+        <div class="tbl">
+          <div class="tbl-head"><span class="dot"></span> default_rate_by_grade</div>
+          <div class="tbl-row"><span class="field-name">A</span><span class="field-value">16,756 loans · 5.72% default</span></div>
+          <div class="tbl-row"><span class="field-name">B</span><span class="field-value">32,539 loans · 11.27% default</span></div>
+          <div class="tbl-row"><span class="field-name">C</span><span class="field-value">25,506 loans · 18.02% default</span></div>
+          <div class="tbl-row"><span class="field-name">D</span><span class="field-value">14,714 loans · 22.17% default</span></div>
+          <div class="tbl-row"><span class="field-name">E</span><span class="field-value">6,745 loans · 28.32% default</span></div>
+          <div class="tbl-row"><span class="field-name">F</span><span class="field-value">3,012 loans · 33.93% default</span></div>
+          <div class="tbl-row"><span class="field-name">G</span><span class="field-value">728 loans · 32.83% default</span></div>
+        </div>
+        <p class="arch-caption">Default rate rises monotonically A → F, confirming both the sampling strategy and the mart layer's join integrity.</p>
+
+        <p class="section-label">status</p>
+        <p style="max-width:64ch; font-size:14.5px;">
+          Extraction, staging, intermediate, and mart layers complete, with all 17 dbt tests
+          passing. Airflow DAG, GitHub Actions CI, and the Power BI dashboard are next.
+        </p>
+
+        <div class="link-row" style="margin-top:8px;">
+          <a href="https://github.com/gyngwon/credit-risk-pipeline" target="_blank" rel="noopener">↗ Source (GitHub)</a>
+          <span style="color:var(--text-dim); font-family:var(--font-mono); font-size:13.5px;">Dashboard — in progress</span>
+        </div>
+      </section>
+    </div>
+
+    <!-- ============ PANEL 02: WEATHER MONITORING ============ -->
+    <div class="project-panel" data-id="weather" role="tabpanel" hidden>
+      <section class="project-block" style="margin-bottom:32px;">
+        <h2>Real-Time Weather Monitoring System</h2>
+        <p style="color:var(--text-dim); margin-bottom:14px;">
+          A live streaming pipeline — OpenWeatherMap API → Kafka → Spark Streaming →
+          MySQL + a Streamlit dashboard — built to practice event-driven data
+          engineering rather than batch ETL.
+        </p>
+
+        <div class="project-meta">
+          <span class="tag">Kafka</span>
+          <span class="tag">PySpark</span>
+          <span class="tag">Docker Compose</span>
+          <span class="tag">MySQL</span>
+          <span class="tag">Streamlit</span>
+        </div>
+
+        <p class="section-label">architecture</p>
+        <div class="mermaid">
+flowchart LR
+    A[OpenWeatherMap API] -->|producer.py| B[Kafka - weatherDetails]
+    B -->|Spark Structured Streaming| C[data_stream.py]
+    C -->|heat index, dew point, wind chill| D[Kafka - metricsWeather]
+    C -->|10-min tumbling window| E[Kafka - aggregatedWeather]
+    D --> F[(MySQL)]
+    E --> F
+    D --> G[Streamlit dashboard]
+    E --> G
+
+    H[Docker Compose] -.orchestrates.-> A
+    H -.-> B
+    H -.-> C
+    H -.-> F
+        </div>
+
+        <p class="section-label">infrastructure</p>
+        <p style="max-width:64ch; font-size:14.5px;">
+          The whole stack — Kafka, Zookeeper, Spark, MySQL, and Kafka-UI — runs as
+          one Docker Compose environment, which is the part that made this project
+          worth doing: getting five services to actually talk to each other in
+          real time, not just processing a static file.
+        </p>
+
+        <div class="link-row" style="margin-top:8px;">
+          <a href="https://github.com/gyngwon/real-time-weather-monitoring-system" target="_blank" rel="noopener">↗ Source (GitHub)</a>
+        </div>
+      </section>
+    </div>
+
+    <!-- ============ PANEL 03: GCP CRICKET STATS ============ -->
+    <div class="project-panel" data-id="cricket" role="tabpanel" hidden>
+      <section class="project-block" style="margin-bottom:32px;">
+        <h2>GCP Cricket Statistics Pipeline</h2>
+        <p style="color:var(--text-dim); margin-bottom:14px;">
+          An end-to-end pipeline on Google Cloud — Cricbuzz API → BigQuery →
+          Cloud Composer (managed Airflow) → Looker — run on a daily schedule,
+          to get hands-on with the GCP-native equivalent of the AWS stack used
+          elsewhere in this portfolio.
+        </p>
+
+        <div class="project-meta">
+          <span class="tag">GCP</span>
+          <span class="tag">BigQuery</span>
+          <span class="tag">Cloud Composer (Airflow)</span>
+          <span class="tag">SQL</span>
+          <span class="tag">Looker</span>
+        </div>
+
+        <p class="section-label">architecture</p>
+        <div class="mermaid">
+flowchart LR
+    A[Cricbuzz API] -->|extract_data.py| B[(BigQuery - raw_cricket)]
+    B -->|SQL transform| C[country_performance]
+    B -->|SQL transform| D[top_players]
+    B -->|SQL transform| E[rank_distribution]
+    C --> F[Looker dashboard]
+    D --> F
+    E --> F
+
+    G[Cloud Composer - daily schedule] -.orchestrates.-> A
+    G -.-> B
+    G -.-> C
+        </div>
+
+        <div class="link-row" style="margin-top:8px;">
+          <a href="https://github.com/gyngwon/gcp-data-pipeline" target="_blank" rel="noopener">↗ Source (GitHub)</a>
+        </div>
+      </section>
+    </div>
+
+    <!-- ============ PANEL 04: SQL LEARNING LOG ============ -->
+    <div class="project-panel" data-id="sql-log" role="tabpanel" hidden>
+      <section class="project-block" style="margin-bottom:32px;">
+        <h2>8 Week SQL Challenge (Danny Ma)</h2>
+        <p style="max-width:64ch; font-size:14.5px; margin-bottom:14px;">
+          A running log of solutions and notes, not a showcase project — kept public
+          as evidence of consistent SQL practice.
+        </p>
+        <div class="tbl">
+          <div class="tbl-head"><span class="dot"></span> sql_log</div>
+          <div class="tbl-row">
+            <span class="field-name">source</span>
+            <span class="field-value">Danny Ma — 8 Week SQL Challenge</span>
+          </div>
+          <div class="tbl-row">
+            <span class="field-name">format</span>
+            <span class="field-value">Per-case study SQL scripts + short write-ups</span>
+          </div>
+          <div class="tbl-row">
+            <span class="field-name">repo</span>
+            <span class="field-value"><a href="https://github.com/gyngwon/" target="_blank" rel="noopener">github.com/gyngwon/… ↗</a></span>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <p style="font-size:13px; color:var(--text-dim); margin-top:8px;">
+      More projects — including a Spotify AWS ETL pipeline and other data/ML work —
+      are on <a href="https://github.com/gyngwon" target="_blank" rel="noopener">github.com/gyngwon</a>.
+    </p>
   </div>
 </main>
 
 <footer class="site">
   <div class="wrap" style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; width:100%;">
-    <span>Gyeongwon Song — built &amp; deployed via GitHub Pages</span>
+    <span>Gyeongwon Song (Wony) — built &amp; deployed via GitHub Pages</span>
     <span>last updated 2026</span>
   </div>
 </footer>
+
+<script>
+  mermaid.initialize({
+    startOnLoad: false,
+    theme: 'base',
+    themeVariables: {
+      fontFamily: 'IBM Plex Mono, monospace',
+      fontSize: '13px',
+      primaryColor: '#eaeef0',
+      primaryTextColor: '#1b2430',
+      primaryBorderColor: '#21715f',
+      lineColor: '#5b6472',
+      secondaryColor: '#ffffff',
+      tertiaryColor: '#ffffff',
+      background: '#ffffff',
+      mainBkg: '#eaeef0',
+      edgeLabelBackground: '#ffffff',
+      nodeBorder: '#21715f',
+      clusterBkg: '#ffffff'
+    }
+  });
+</script>
+<script>
+  (function () {
+    var tabs = document.querySelectorAll('.project-tab');
+    var panels = document.querySelectorAll('.project-panel');
+
+    // On phones, a wide left-to-right diagram gets squeezed and the text
+    // becomes unreadable. Flip unrendered diagrams to top-to-bottom instead.
+    function prepMermaidForViewport(panelEl) {
+      var isNarrow = window.innerWidth <= 640;
+      if (!isNarrow) { return; }
+      var nodes = panelEl.querySelectorAll('.mermaid:not([data-mm-prepped])');
+      nodes.forEach(function (el) {
+        el.textContent = el.textContent.replace(/flowchart\s+LR/, 'flowchart TD');
+        el.setAttribute('data-mm-prepped', 'true');
+      });
+    }
+
+    function showProject(id) {
+      panels.forEach(function (p) { p.hidden = p.dataset.id !== id; });
+      tabs.forEach(function (t) {
+        var isActive = t.dataset.id === id;
+        t.classList.toggle('active', isActive);
+        t.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      });
+
+      var panelEl = document.querySelector('.project-panel[data-id="' + id + '"]');
+      if (panelEl) { prepMermaidForViewport(panelEl); }
+
+      // Scope mermaid to THIS panel only. Diagrams inside a hidden panel
+      // render at zero size and get marked "already processed" — after
+      // that mermaid silently skips them forever, so we must never let it
+      // scan the whole document while other panels are still hidden.
+      setTimeout(function () {
+        if (window.mermaid && panelEl) {
+          mermaid.run({ querySelector: '.project-panel[data-id="' + id + '"] .mermaid' });
+        }
+      }, 0);
+    }
+
+    tabs.forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        showProject(tab.dataset.id);
+        history.replaceState(null, '', '#' + tab.dataset.id);
+        tab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      });
+    });
+
+    var initial = window.location.hash.replace('#', '');
+    var validIds = Array.prototype.map.call(tabs, function (t) { return t.dataset.id; });
+    if (!validIds.includes(initial)) { initial = validIds[0]; }
+    showProject(initial);
+  })();
+</script>
 
 </body>
 </html>

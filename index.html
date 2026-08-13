@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Gyeongwon "Wony" Song — Analytics Engineer</title>
+<title>Wony — Analytics Engineer</title>
 <meta name="description" content="Analytics Engineer / Data Engineer portfolio — dbt, SQL, Airflow, Power BI." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,450;9..144,500&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -14,7 +14,7 @@
 <header class="site">
   <div class="wrap">
     <div class="brand-row">
-      <span class="brand"><strong>gwsong</strong>.dev</span>
+      <span class="brand"><strong>wony</strong>.dev</span>
       <span class="brand">Milan, Italy · Open to relocation</span>
     </div>
 
@@ -66,13 +66,16 @@
 <main>
   <div class="wrap">
     <p class="eyebrow">// about_me</p>
-    <h1>Analytics Engineer who builds data models people can trust.</h1>
-    <p class="lede">
-      I design and build dbt-modeled data pipelines — from raw source data to
-      tested, documented Star Schemas — and turn them into dashboards decision-makers
-      actually use. MSc in Computational Data Science, background in B2B sales
-      operations, based in Milan.
-    </p>
+    <div class="hero-row">
+      <img class="hero-photo" src="assets/img/profile.jpg" alt="Portrait of Gyeongwon Song" />
+      <div class="hero-text">
+        <p class="hero-name"><strong>WONY</strong> · MSc Computational Data Science</p>
+        <h1>Analytics Engineer who builds data models people can trust.</h1>
+        <p class="lede">
+          I build analytics-ready data pipelines with SQL and dbt — transforming raw source data into tested, documented Star Schemas and trusted datasets for business reporting and decision-making.
+        </p>
+      </div>
+    </div>
 
     <p class="section-label">stack</p>
     <div class="stack-grid">
@@ -80,32 +83,39 @@
         <h3>Modeling &amp; Transform</h3>
         <ul>
           <li>SQL</li>
-          <li>dbt (staging → mart, tests)</li>
-          <li>Star Schema design</li>
+          <li>dbt (staging → mart, Star Schema, tests)</li>
+          <li>Python (Pandas, Polars)</li>
         </ul>
       </div>
       <div class="stack-group">
-        <h3>Orchestration &amp; Storage</h3>
+        <h3>Orchestration &amp; Streaming</h3>
         <ul>
           <li>Airflow / Cloud Composer</li>
-          <li>BigQuery, Snowflake, DuckDB</li>
-          <li>Docker</li>
+          <li>Kafka, Spark Streaming</li>
+          <li>Docker / Docker Compose</li>
+        </ul>
+      </div>
+      <div class="stack-group">
+        <h3>Cloud &amp; Data Platform</h3>
+        <ul>
+          <li>BigQuery, DuckDB</li>
+          <li>GCP</li>
+          <li>MySQL</li>
         </ul>
       </div>
       <div class="stack-group">
         <h3>Analytics &amp; BI</h3>
         <ul>
           <li>Power BI (PL-300 in progress)</li>
-          <li>Tableau</li>
-          <li>Python (Pandas, NumPy)</li>
+          <li>Tableau, Looker, Streamlit</li>
         </ul>
       </div>
       <div class="stack-group">
         <h3>Domain</h3>
         <ul>
-          <li>Order-to-Cash / Credit Ops</li>
-          <li>Financial statement literacy</li>
-          <li>B2B sales &amp; customer data</li>
+          <li>Order-to-Cash / Credit Operations</li>
+          <li>Financial &amp; Commercial Data</li>
+          <li>B2B Sales &amp; Customer Data</li>
         </ul>
       </div>
     </div>
@@ -128,7 +138,7 @@
 
 <footer class="site">
   <div class="wrap" style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; width:100%;">
-    <span>Gyeongwon Song — built &amp; deployed via GitHub Pages</span>
+    <span>Gyeongwon Song (Wony) — built &amp; deployed via GitHub Pages</span>
     <span>last updated 2026</span>
   </div>
 </footer>

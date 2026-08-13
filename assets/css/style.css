@@ -10,8 +10,8 @@
     --text-dim: #5b6472;
     --key: #21715f;       /* "primary key" teal — structure, links, nav */
     --key-dim: #14493d;
-    --tag: #9c5f14;       /* "field" ochre — tags, metrics, emphasis */
-    --tag-dim: #6f4410;
+    --tag: #3e5c76;       /* "field" slate blue — tags, metrics, emphasis */
+    --tag-dim: #2a4055;
     --font-display: 'IBM Plex Sans', -apple-system, sans-serif;
     --font-serif: 'Fraunces', Georgia, serif;
     --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
@@ -299,6 +299,56 @@
   .project-block h2 { margin-bottom: 10px; }
   .project-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
   
+  /* ============================================================
+     Project tab/panel viewer
+     ============================================================ */
+  .project-tabs {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 4px 0 32px;
+  }
+  .project-tab {
+    flex: 1;
+    min-width: 200px;
+    text-align: left;
+    cursor: pointer;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    box-shadow: var(--shadow);
+    font-family: var(--font-display);
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  .project-tab:hover { border-color: var(--key-dim); }
+  .project-tab .tab-title {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .project-tab .tab-sub {
+    display: block;
+    font-size: 11.5px;
+    color: var(--text-dim);
+    font-family: var(--font-mono);
+  }
+  .project-tab.active {
+    border-color: var(--key);
+    background: var(--surface-raised);
+  }
+  .project-tab.active .tab-title { color: var(--key); }
+  
+  .project-panel[hidden] { display: none; }
+  
+  @media (max-width: 640px) {
+    .project-tabs { flex-direction: column; }
+    .project-tab { min-width: 0; }
+  }
+  
   .metric-row {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -336,6 +386,35 @@
     color: var(--text-dim);
   }
   
+  .arch-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    margin: 4px 0 4px;
+  }
+  .arch-caption {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: var(--text-dim);
+    margin: 0 0 22px;
+  }
+  
+  .mermaid {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 16px;
+    margin: 0 0 24px;
+    overflow-x: auto;
+    display: flex;
+    justify-content: center;
+  }
+  .mermaid svg { max-width: 100%; height: auto; }
+  
   /* ============================================================
      Footer
      ============================================================ */
@@ -357,3 +436,38 @@
     * { transition: none !important; }
   }
   
+  /* ============================================================
+     About page hero (photo + intro)
+     ============================================================ */
+  .hero-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 36px;
+    margin-bottom: 8px;
+  }
+  .hero-photo {
+    width: 208px;
+    height: 208px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    border: 2px solid #9dc9ae;
+    box-shadow: var(--shadow);
+  }
+  .hero-text { flex: 1; min-width: 0; }
+  .hero-text h1 { margin-bottom: 14px; }
+  .hero-text .lede { margin-bottom: 0; }
+  .hero-name {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    color: var(--text-dim);
+    margin: 0 0 10px;
+  }
+  .hero-name strong { color: var(--text); font-weight: 600; }
+  
+  @media (max-width: 640px) {
+    .hero-row { flex-direction: column; align-items: center; text-align: center; gap: 18px; }
+    .hero-photo { width: 152px; height: 152px; }
+    .hero-text .lede { border-left: none; padding-left: 0; margin: 0 auto; }
+  }
