@@ -65,10 +65,10 @@
 <main>
   <div class="wrap">
     <p class="eyebrow">// projects</p>
-    <h1>Four projects, four ways of working with data.</h1>
+    <h1>Five projects, five ways of working with data.</h1>
     <p class="lede">
-      One flagship built deep, two supporting projects chosen for contrast<br>
-      batch vs. streaming, and different cloud environments<br>
+      One flagship built deep, three supporting projects chosen for contrast<br>
+      batch vs. streaming vs. RAG, and different cloud environments<br>
       and a running SQL practice log. Click one below to open it.
     </p>
 
@@ -78,16 +78,20 @@
         <span class="tab-title">01 · Credit Risk Pipeline</span>
         <span class="tab-sub">flagship · dbt, Airflow, Power BI</span>
       </button>
+      <button class="project-tab" data-id="docs-agent" role="tab" aria-selected="false">
+        <span class="tab-title">02 · FastAPI Docs Agent</span>
+        <span class="tab-sub">AI engineering · Claude API, RAG</span>
+      </button>
       <button class="project-tab" data-id="weather" role="tab" aria-selected="false">
-        <span class="tab-title">02 · Weather Monitoring</span>
+        <span class="tab-title">03 · Weather Monitoring</span>
         <span class="tab-sub">streaming · Kafka, Spark, Docker</span>
       </button>
       <button class="project-tab" data-id="cricket" role="tab" aria-selected="false">
-        <span class="tab-title">03 · GCP Cricket Stats</span>
+        <span class="tab-title">04 · GCP Cricket Stats</span>
         <span class="tab-sub">cloud-native · BigQuery, Composer, Looker</span>
       </button>
       <button class="project-tab" data-id="sql-log" role="tab" aria-selected="false">
-        <span class="tab-title">04 · SQL Challenge</span>
+        <span class="tab-title">05 · SQL Challenge</span>
         <span class="tab-sub">learning log · Danny Ma, 8 weeks</span>
       </button>
     </div>
@@ -207,7 +211,100 @@ erDiagram
       </section>
     </div>
 
-    <!-- ============ PANEL 02: WEATHER MONITORING ============ -->
+    <!-- ============ PANEL 02: FASTAPI DOCS AGENT ============ -->
+    <div class="project-panel" data-id="docs-agent" role="tabpanel" hidden>
+      <section class="project-block" style="margin-bottom:32px;">
+        <h2>FastAPI Docs Agent</h2>
+        <p style="color:var(--text-dim); margin-bottom:14px;">
+          A retrieval-augmented, tool-using assistant that answers questions about FastAPI by
+          searching its official documentation, falling back to searching GitHub issues on
+          the <code>fastapi/fastapi</code> repo when the docs don't have the answer. Implements
+          both a fixed RAG pipeline and an agentic version so the difference is visible directly
+          in the repo.
+        </p>
+
+        <div class="project-meta">
+          <span class="tag">Python</span>
+          <span class="tag">Claude API</span>
+          <span class="tag">RAG</span>
+          <span class="tag">Chroma (vector DB)</span>
+          <span class="tag">sentence-transformers</span>
+        </div>
+
+        <p class="section-label">architecture</p>
+        <div class="mermaid">
+flowchart LR
+    subgraph ingestion [Ingestion - run once]
+    direction TB
+    A[FastAPI docs .md files] --> B[Chunker - headers plus sliding window]
+    B --> C[Embeddings - sentence-transformers]
+    C --> D[(Chroma vector DB)]
+    end
+
+    subgraph query [Query - per question]
+    direction TB
+    E[User question] --> F[Embed query]
+    F --> G{Claude}
+    G -->|search_docs| D
+    G -->|search_github_issues| H[GitHub API]
+    G --> I[Answer with citations]
+    end
+        </div>
+
+        <p class="section-label">request flow — plain RAG</p>
+        <div class="mermaid">
+sequenceDiagram
+    autonumber
+    actor User
+    participant R as rag.py
+    participant L as llm_client.py
+    participant C as Claude
+
+    User->>R: question
+    Note over R: retrieve top-k chunks, build context and prompt
+    R->>L: generate(prompt)
+    L->>C: messages.create(system, prompt)
+    C-->>L: response
+    L-->>R: answer text
+    R-->>User: final answer plus citations
+        </div>
+        <p class="arch-caption">The agentic path (agent.py) follows the same shape but loops — Claude can request a tool call instead of a final answer, the result feeds back in, and this repeats until Claude returns a plain-text answer.</p>
+
+        <p class="section-label">why this project</p>
+        <p style="max-width:64ch; font-size:14.5px;">
+          Grounded, cited question-answering over a large evolving document set — internal
+          wikis, customer support, developer docs — is one of the most common applied-AI
+          patterns in industry. This reproduces it on a real, sizable public documentation
+          set (153 files, ~1,284 chunks) chosen because it's well-structured and code-heavy,
+          a realistic stress test for retrieval.
+        </p>
+
+        <p class="section-label">evaluation</p>
+        <p style="max-width:64ch; font-size:14.5px;">
+          Retrieval quality is measured separately from answer quality — 15 hand-written
+          questions with known-correct source documents, reporting hit-rate@k without calling
+          Claude at all:
+        </p>
+        <div class="metric-row">
+          <div class="metric"><span class="num">73%</span><span class="label">hit-rate@1 (11/15)</span></div>
+          <div class="metric"><span class="num">100%</span><span class="label">hit-rate@3 (15/15)</span></div>
+          <div class="metric"><span class="num">100%</span><span class="label">hit-rate@5 (15/15)</span></div>
+        </div>
+        <p class="arch-caption">The correct document is almost always in the top 3, even when it isn't the single top result — a healthy sign for generation, since Claude sees the right context even on an imperfect top-1 match.</p>
+
+        <p class="section-label">status</p>
+        <p style="max-width:64ch; font-size:14.5px;">
+          Complete: ingestion, chunking, embeddings, plain RAG, agentic RAG with GitHub-issue
+          tool use, a CLI, and a retrieval evaluation suite.
+        </p>
+
+        <div class="link-row" style="margin-top:8px;">
+          <a href="https://github.com/gyngwon/fastapi-docs-agent" target="_blank" rel="noopener">↗ Source (GitHub)</a>
+        </div>
+      </section>
+    </div>
+
+    <!-- ============ PANEL 03: WEATHER MONITORING ============ -->
     <div class="project-panel" data-id="weather" role="tabpanel" hidden>
       <section class="project-block" style="margin-bottom:32px;">
         <h2>Real-Time Weather Monitoring System</h2>
@@ -257,7 +354,7 @@ flowchart LR
       </section>
     </div>
 
-    <!-- ============ PANEL 03: GCP CRICKET STATS ============ -->
+    <!-- ============ PANEL 04: GCP CRICKET STATS ============ -->
     <div class="project-panel" data-id="cricket" role="tabpanel" hidden>
       <section class="project-block" style="margin-bottom:32px;">
         <h2>GCP Cricket Statistics Pipeline</h2>
@@ -298,7 +395,7 @@ flowchart LR
       </section>
     </div>
 
-    <!-- ============ PANEL 04: SQL LEARNING LOG ============ -->
+    <!-- ============ PANEL 05: SQL LEARNING LOG ============ -->
     <div class="project-panel" data-id="sql-log" role="tabpanel" hidden>
       <section class="project-block" style="margin-bottom:32px;">
         <h2>8 Week SQL Challenge (Danny Ma)</h2>
@@ -360,7 +457,11 @@ flowchart LR
       mainBkg: '#eaeef0',
       edgeLabelBackground: '#ffffff',
       nodeBorder: '#21715f',
-      clusterBkg: '#ffffff'
+      clusterBkg: '#ffffff',
+      actorBkg: '#eaeef0',
+      actorBorder: '#21715f',
+      signalColor: '#5b6472',
+      signalTextColor: '#1b2430'
     }
   });
 </script>
