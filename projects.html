@@ -65,28 +65,38 @@
 <main>
   <div class="wrap">
     <p class="eyebrow">// projects</p>
-    <h1>A selection of data engineering and analytics projects.</h1>
+    <h1>Six projects — one from a real financial-market employer.</h1>
     <p class="lede">
-      From batch pipelines and streaming systems to cloud analytics, RAG, and SQL.
+      One flagship built deep, a real-world project from a post-trade finance internship,<br>
+      three supporting projects chosen for contrast — batch vs. streaming vs. RAG, different<br>
+      cloud environments — and a running SQL practice log. Click one below to open it.
     </p>
 
     <!-- ============ TABS ============ -->
     <div class="project-tabs" role="tablist" aria-label="Select a project">
       <button class="project-tab active" data-id="credit-risk" role="tab" aria-selected="true">
         <span class="tab-title">01 · Credit Risk Pipeline</span>
-        <span class="tab-sub">flagship · dbt, Airflow, BigQuery, Power BI</span>
+        <span class="tab-sub">flagship · dbt, Airflow, Power BI</span>
+      </button>
+      <button class="project-tab" data-id="euronext" role="tab" aria-selected="false">
+        <span class="tab-title">02 · Liquidity Dashboard</span>
+        <span class="tab-sub">Euronext Securities Milan · AWS, Tableau</span>
       </button>
       <button class="project-tab" data-id="docs-agent" role="tab" aria-selected="false">
-        <span class="tab-title">02 · FastAPI Docs Agent</span>
-        <span class="tab-sub">AI engineering · RAG, Claude API, Chroma</span>
+        <span class="tab-title">03 · FastAPI Docs Agent</span>
+        <span class="tab-sub">AI engineering · Claude API, RAG</span>
       </button>
       <button class="project-tab" data-id="weather" role="tab" aria-selected="false">
-        <span class="tab-title">03 · Weather Monitoring</span>
+        <span class="tab-title">04 · Weather Monitoring</span>
         <span class="tab-sub">streaming · Kafka, Spark, Docker</span>
       </button>
       <button class="project-tab" data-id="cricket" role="tab" aria-selected="false">
-        <span class="tab-title">04 · GCP Cricket Stats</span>
-        <span class="tab-sub">cloud analytics · BigQuery, Composer, Looker</span>
+        <span class="tab-title">05 · GCP Cricket Stats</span>
+        <span class="tab-sub">cloud-native · BigQuery, Composer, Looker</span>
+      </button>
+      <button class="project-tab" data-id="sql-log" role="tab" aria-selected="false">
+        <span class="tab-title">06 · SQL Challenge</span>
+        <span class="tab-sub">learning log · Danny Ma, 8 weeks</span>
       </button>
     </div>
 
@@ -195,17 +205,47 @@ erDiagram
         <p class="section-label">status</p>
         <p style="max-width:64ch; font-size:14.5px;">
           Extraction, staging, intermediate, and mart layers complete, with all 17 dbt tests
-          passing. Airflow DAG, GitHub Actions CI, and the Power BI dashboard are next.
+          passing. Airflow DAG live and running successfully — <code>extract_raw_loans →
+          dbt_run → dbt_test</code>. Power BI dashboard delivered, three views. GitHub
+          Actions CI is next.
         </p>
+        <img class="arch-img" src="assets/img/airflow-dag-run.png"
+          alt="Airflow DAG run for credit_risk_pipeline showing extract_raw_loans, dbt_run, and dbt_test all completed successfully" />
+        <p class="arch-caption">Successful DAG run — extract_raw_loans → dbt_run → dbt_test, all green.</p>
+
+        <p class="section-label">power bi dashboard</p>
+        <p style="max-width:64ch; font-size:14.5px;">
+          Three business-facing views built on top of the mart layer — portfolio-level
+          KPIs, risk segmentation with interactive filters, and loss/return estimation
+          by grade.
+        </p>
+
+        <div class="metric-row">
+          <div class="metric"><span class="num">$1.4B</span><span class="label">total loan volume, 100K loans</span></div>
+          <div class="metric"><span class="num">15.65%</span><span class="label">overall default rate</span></div>
+          <div class="metric"><span class="num">$230.85M</span><span class="label">estimated loan loss provision</span></div>
+          <div class="metric"><span class="num">-1.76</span><span class="label">portfolio risk-adjusted return (weighted avg)</span></div>
+        </div>
+
+        <img class="arch-img" src="assets/img/dashboard-overview.png"
+          alt="Power BI Portfolio Overview page: total loans, average interest rate, total loan volume, overall default rate, loan issuance trend, and loan purpose distribution" />
+        <p class="arch-caption">Portfolio Overview — volume, rate, issuance trend, and loan-purpose mix at a glance.</p>
+
+        <img class="arch-img" src="assets/img/dashboard-risk-segmentation.png"
+          alt="Power BI Risk Segmentation page: default rate by credit grade and by DTI bucket, with housing status and employment length filters" />
+        <p class="arch-caption">Risk Segmentation — default rate by grade and DTI bucket, filterable by housing status and employment length.</p>
+
+        <img class="arch-img" src="assets/img/dashboard-loss-return.png"
+          alt="Power BI Loss and Return Estimation page: loan loss provision, portfolio risk-adjusted return, and a risk summary table and chart by grade" />
+        <p class="arch-caption">Loss &amp; Return Estimation — provisioning and risk-adjusted return, A (profitable) through G (loss-making).</p>
 
         <div class="link-row" style="margin-top:8px;">
           <a href="https://github.com/gyngwon/credit-risk-pipeline" target="_blank" rel="noopener">↗ Source (GitHub)</a>
-          <span style="color:var(--text-dim); font-family:var(--font-mono); font-size:13.5px;">Dashboard — in progress</span>
         </div>
       </section>
     </div>
 
-    <!-- ============ PANEL 02: FASTAPI DOCS AGENT ============ -->
+    <!-- ============ PANEL 03: FASTAPI DOCS AGENT ============ -->
     <div class="project-panel" data-id="docs-agent" role="tabpanel" hidden>
       <section class="project-block" style="margin-bottom:32px;">
         <h2>FastAPI Docs Agent</h2>
@@ -298,7 +338,110 @@ sequenceDiagram
       </section>
     </div>
 
-    <!-- ============ PANEL 03: WEATHER MONITORING ============ -->
+    <!-- ============ PANEL 02: EURONEXT LIQUIDITY DASHBOARD ============ -->
+    <div class="project-panel" data-id="euronext" role="tabpanel" hidden>
+      <section class="project-block" style="margin-bottom:32px;">
+        <h2>Cloud Migration of a Real-Time Liquidity Dashboard</h2>
+        <p style="color:var(--text-dim); margin-bottom:14px;">
+          A yearlong Data Engineer internship at <strong>Euronext Securities Milan</strong>
+          (the Central Securities Depository behind <strong>Borsa Italiana</strong>, the
+          Italian Stock Exchange), formalized into my MSc thesis: redesigning a
+          mission-critical liquidity monitoring tool used by institutional treasury teams,
+          migrating it from on-premises infrastructure to an event-driven AWS architecture.
+        </p>
+
+        <div class="project-meta">
+          <span class="tag">AWS (Kinesis, Glue, S3, Redshift)</span>
+          <span class="tag">ECS / Lambda</span>
+          <span class="tag">SQL (stored procedures, views)</span>
+          <span class="tag">Tableau</span>
+          <span class="tag">ISO 20022</span>
+        </div>
+
+        <p class="section-label">the domain</p>
+        <p style="max-width:64ch; font-size:14.5px;">
+          In post-trade finance, every securities trade must settle — cash and securities
+          exchanging hands — within a strict window (T+2 in the EU, moving to T+1 in 2027).
+          The dashboard this project redesigns gives institutional treasurers real-time
+          visibility into their cash accounts so they can pre-fund settlements and avoid
+          regulatory penalties for late settlement.
+        </p>
+
+        <p class="section-label">architecture</p>
+        <img class="arch-img" src="assets/img/euronext-aws-architecture.png"
+          alt="AWS architecture: T2S and corporate data center feed a message hub, into ECS Fargate tasks, splitting into a Kinesis/Glue/Spark streaming path and an S3/Glue batch path, converging in Amazon Redshift" />
+        <p class="arch-caption">Standard real-time flow: ISO 20022 settlement messages → ECS (Fargate) → Kinesis/Glue (stream) + S3/Glue (batch) → Redshift → Tableau. A parallel recovery path (not pictured) handles message loss via manual re-ingestion.</p>
+
+        <p class="section-label">my role</p>
+        <p style="max-width:64ch; font-size:14.5px;">
+          Contributed across the pipeline rather than owning one layer end-to-end: built
+          Glue Streaming/batch jobs (Kinesis → Iceberg, and CSV → Parquet for Redshift/Athena),
+          wrote and modified Redshift stored procedures and views for the DataMart layer,
+          ran User Story–based validation across Glue jobs and Redshift tables to catch column
+          mismatches and null/blank-handling bugs, and built the Tableau dashboards below on
+          top of that data.
+        </p>
+
+        <p class="section-label">key design decisions</p>
+        <p style="max-width:64ch; font-size:14.5px;">
+          <strong>Overwrite-based → event-driven.</strong> The legacy system stored only the
+          latest status of each settlement instruction, overwriting prior states — sufficient
+          for daily reporting but blind to intraday activity and unable to reconstruct history.
+          The redesign treats settlement as a sequence of discrete lifecycle events (matched,
+          partially settled, settled, failed), enabling both real-time monitoring and later
+          historical analysis from the same data.
+        </p>
+        <p style="max-width:64ch; font-size:14.5px;">
+          <strong>Deterministic first, AI-ready by design.</strong> The PoC implements
+          worst-case liquidity exposure as a deterministic calculation rather than a
+          prediction — for a mission-critical financial tool, an auditable rule beats an
+          opaque model. The architecture reserves a defined integration path for an
+          AI-based forecasting model (AWS SageMaker) as a future addition, without making
+          it a dependency of the core system.
+        </p>
+        <p style="max-width:64ch; font-size:14.5px;">
+          <strong>Multi-tenant data isolation.</strong> Each institutional client can see
+          only its own accounts. Isolation is enforced at three layers: row-level filtering
+          in Redshift by account and legal-entity ID, least-privilege IAM roles binding
+          Tableau's server identity to specific credentials, and matching user-based filters
+          in the Tableau workbooks themselves.
+        </p>
+
+        <p class="section-label">dashboards (Tableau)</p>
+        <p style="max-width:64ch; font-size:14.5px;">
+          Three views, screenshots anonymized (client names masked, account identifiers
+          removed) — approved for external use as part of the thesis.
+        </p>
+
+        <img class="arch-img" src="assets/img/euronext-dashboard-overview.png"
+          alt="Overview dashboard: Daily Liquidity Usage and Night Liquidity Usage Forecast by client, in millions of euros" />
+        <p class="arch-caption">Overview — today's settled cash position and tomorrow's forecasted overnight liquidity need, by client.</p>
+
+        <img class="arch-img" src="assets/img/euronext-dashboard-t2s.png"
+          alt="T2S dashboard: settlement statistics, percent settled by value and count, unavailable instruments list, and worst-case cash forecasting bar chart" />
+        <p class="arch-caption">T2S Statistics — settlement completion rate, blocking instruments by ISIN, and worst-case next-day cash exposure.</p>
+
+        <img class="arch-img" src="assets/img/euronext-dashboard-securities.png"
+          alt="Available Securities dashboard: holdings summary by asset class (Govies, ABS, Others) and top 10 holdings by ISIN" />
+        <p class="arch-caption">Available Securities — holdings by asset class and top holdings by ISIN, for collateral and funding planning.</p>
+
+        <p class="section-label">status</p>
+        <p style="max-width:64ch; font-size:14.5px;">
+          PoC complete and validated — core liquidity KPIs reproduced from AWS-based data
+          with consistent sign and order of magnitude versus the legacy dashboard. Full
+          production replacement is intentionally out of scope (some legacy features —
+          tender-specific flows, real-time corporate actions, full collateral-eligibility
+          rules — remain future work, since the underlying data isn't yet available in the
+          cloud environment). Thesis supervised jointly by Prof. Anton Dignös (Free
+          University of Bozen-Bolzano) and Dr. Enrico Papalini (Euronext Securities Milan).
+        </p>
+
+        <div class="link-row" style="margin-top:8px;">
+          <span style="color:var(--text-dim); font-family:var(--font-mono); font-size:13.5px;">Private codebase — company project</span>
+        </div>
+      </section>
+    </div>
+    <!-- ============ PANEL 04: WEATHER MONITORING ============ -->
     <div class="project-panel" data-id="weather" role="tabpanel" hidden>
       <section class="project-block" style="margin-bottom:32px;">
         <h2>Real-Time Weather Monitoring System</h2>
@@ -348,7 +491,7 @@ flowchart LR
       </section>
     </div>
 
-    <!-- ============ PANEL 04: GCP CRICKET STATS ============ -->
+    <!-- ============ PANEL 05: GCP CRICKET STATS ============ -->
     <div class="project-panel" data-id="cricket" role="tabpanel" hidden>
       <section class="project-block" style="margin-bottom:32px;">
         <h2>GCP Cricket Statistics Pipeline</h2>
@@ -385,6 +528,37 @@ flowchart LR
 
         <div class="link-row" style="margin-top:8px;">
           <a href="https://github.com/gyngwon/gcp-data-pipeline" target="_blank" rel="noopener">↗ Source (GitHub)</a>
+        </div>
+      </section>
+    </div>
+
+    <!-- ============ PANEL 06: SQL LEARNING LOG ============ -->
+    <div class="project-panel" data-id="sql-log" role="tabpanel" hidden>
+      <section class="project-block" style="margin-bottom:32px;">
+        <h2>8 Week SQL Challenge (Danny Ma)</h2>
+        <p style="max-width:64ch; font-size:14.5px; margin-bottom:14px;">
+          A running practice log for
+          <a href="https://8weeksqlchallenge.com/" target="_blank" rel="noopener">Danny Ma's 8 Week SQL Challenge</a>
+          — not a showcase project, kept public as evidence of consistent SQL practice.
+        </p>
+        <div class="tbl">
+          <div class="tbl-head"><span class="dot"></span> sql_log</div>
+          <div class="tbl-row">
+            <span class="field-name">source</span>
+            <span class="field-value">Danny Ma — 8 Week SQL Challenge</span>
+          </div>
+          <div class="tbl-row">
+            <span class="field-name">tools</span>
+            <span class="field-value">PostgreSQL (DB Fiddle / local Postgres)</span>
+          </div>
+          <div class="tbl-row">
+            <span class="field-name">status</span>
+            <span class="field-value">Just started — tracking progress case study by case study</span>
+          </div>
+          <div class="tbl-row">
+            <span class="field-name">repo</span>
+            <span class="field-value"><a href="https://github.com/gyngwon/8-week-sql-challenge" target="_blank" rel="noopener">github.com/gyngwon/8-week-sql-challenge ↗</a></span>
+          </div>
         </div>
       </section>
     </div>
