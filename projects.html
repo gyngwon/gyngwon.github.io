@@ -65,10 +65,11 @@
 <main>
   <div class="wrap">
     <p class="eyebrow">// projects</p>
-    <h1>Five projects spanning real-world data engineering, analytics, and AI.</h1>
+    <h1>Six projects — one from a real financial-market employer.</h1>
     <p class="lede">
-      One flagship project, one real-world project from my post-trade finance internship, three supporting<br>
-      projects covering batch, streaming, RAG, and cloud analytics, plus an ongoing SQL practice log.
+      One flagship built deep, a real-world project from a post-trade finance internship,<br>
+      three supporting projects chosen for contrast — batch vs. streaming vs. RAG, different<br>
+      cloud environments — and a running SQL practice log. Click one below to open it.
     </p>
 
     <!-- ============ TABS ============ -->
@@ -92,6 +93,10 @@
       <button class="project-tab" data-id="cricket" role="tab" aria-selected="false">
         <span class="tab-title">05 · GCP Cricket Stats</span>
         <span class="tab-sub">cloud-native · BigQuery, Composer, Looker</span>
+      </button>
+      <button class="project-tab" data-id="sql-log" role="tab" aria-selected="false">
+        <span class="tab-title">06 · SQL Challenge</span>
+        <span class="tab-sub">learning log · Danny Ma, 8 weeks</span>
       </button>
     </div>
 
@@ -527,6 +532,36 @@ flowchart LR
       </section>
     </div>
 
+    <!-- ============ PANEL 06: SQL LEARNING LOG ============ -->
+    <div class="project-panel" data-id="sql-log" role="tabpanel" hidden>
+      <section class="project-block" style="margin-bottom:32px;">
+        <h2>8 Week SQL Challenge (Danny Ma)</h2>
+        <p style="max-width:64ch; font-size:14.5px; margin-bottom:14px;">
+          A running practice log for
+          <a href="https://8weeksqlchallenge.com/" target="_blank" rel="noopener">Danny Ma's 8 Week SQL Challenge</a>
+          — not a showcase project, kept public as evidence of consistent SQL practice.
+        </p>
+        <div class="tbl">
+          <div class="tbl-head"><span class="dot"></span> sql_log</div>
+          <div class="tbl-row">
+            <span class="field-name">source</span>
+            <span class="field-value">Danny Ma — 8 Week SQL Challenge</span>
+          </div>
+          <div class="tbl-row">
+            <span class="field-name">tools</span>
+            <span class="field-value">PostgreSQL (DB Fiddle / local Postgres)</span>
+          </div>
+          <div class="tbl-row">
+            <span class="field-name">status</span>
+            <span class="field-value">Just started — tracking progress case study by case study</span>
+          </div>
+          <div class="tbl-row">
+            <span class="field-name">repo</span>
+            <span class="field-value"><a href="https://github.com/gyngwon/8-week-sql-challenge" target="_blank" rel="noopener">github.com/gyngwon/8-week-sql-challenge ↗</a></span>
+          </div>
+        </div>
+      </section>
+    </div>
 
     <p style="font-size:13px; color:var(--text-dim); margin-top:8px;">
       More projects — including a Spotify AWS ETL pipeline and other data/ML work —
