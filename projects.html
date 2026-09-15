@@ -90,7 +90,7 @@
       </button>
       <button class="project-tab" data-id="cricket" role="tab" aria-selected="false">
         <span class="tab-title">05 · GCP Cricket Stats</span>
-        <span class="tab-sub">cloud-native · BigQuery, Composer, Looker</span>
+        <span class="tab-sub">cloud analytics · BigQuery, Composer, Looker</span>
       </button>
     </div>
 
@@ -99,8 +99,7 @@
       <section class="project-block" style="margin-bottom:32px;">
         <h2>Credit Risk Analytics Pipeline</h2>
         <p style="color:var(--text-dim); margin-bottom:14px;">
-          Raw Lending Club loan data → tested dbt Star Schema (4 dimensions) → orchestrated
-          pipeline → Power BI dashboard, modeled on the credit
+          Raw Lending Club loan data → tested dbt Star Schema (4 dimensions) → orchestrated pipeline → Power BI dashboard, inspired by real-world credit operations.
         </p>
 
         <div class="project-meta">
@@ -172,7 +171,7 @@ erDiagram
           (up to 56 collisions on identical loan terms), which caused a join explosion in
           <code>fct_loans</code> against three dimension tables. Adding
           <code>row_number() over (partition by loan_hash)</code> into the hash guarantees
-          mathematical uniqueness instead of relying on low collision probability.
+          to the hash makes the surrogate key deterministic and unique within the transformed dataset, rather than relying on collision probability.
         </p>
 
         <p class="section-label">data quality</p>
@@ -201,7 +200,7 @@ erDiagram
           Extraction, staging, intermediate, and mart layers complete, with all 17 dbt tests
           passing. Airflow DAG live and running successfully — <code>extract_raw_loans →
           dbt_run → dbt_test</code>. Power BI dashboard delivered, three views. GitHub
-          Actions CI is next.
+          Actions CI runs on pull requests.
         </p>
         <img class="arch-img" src="assets/img/airflow-dag-run.png"
           alt="Airflow DAG run for credit_risk_pipeline showing extract_raw_loans, dbt_run, and dbt_test all completed successfully" />
@@ -218,7 +217,7 @@ erDiagram
           <div class="metric"><span class="num">$1.4B</span><span class="label">total loan volume, 100K loans</span></div>
           <div class="metric"><span class="num">15.65%</span><span class="label">overall default rate</span></div>
           <div class="metric"><span class="num">$230.85M</span><span class="label">estimated loan loss provision</span></div>
-          <div class="metric"><span class="num">-1.76</span><span class="label">portfolio risk-adjusted return (weighted avg)</span></div>
+          <div class="metric"><span class="num">-1.76%</span><span class="label">portfolio risk-adjusted return (weighted avg)</span></div>
         </div>
 
         <img class="arch-img" src="assets/img/dashboard-overview.png"
@@ -340,7 +339,7 @@ sequenceDiagram
           A yearlong Data Engineer internship at <strong>Euronext Securities Milan</strong>
           (the Central Securities Depository behind <strong>Borsa Italiana</strong>, the
           Italian Stock Exchange), formalized into my MSc thesis: redesigning a
-          mission-critical liquidity monitoring tool used by institutional treasury teams,
+          redesigning a liquidity monitoring tool used by institutional treasury teams,
           migrating it from on-premises infrastructure to an event-driven AWS architecture.
         </p>
 
@@ -473,10 +472,7 @@ flowchart LR
 
         <p class="section-label">infrastructure</p>
         <p style="max-width:64ch; font-size:14.5px;">
-          The whole stack — Kafka, Zookeeper, Spark, MySQL, and Kafka-UI — runs as
-          one Docker Compose environment, which is the part that made this project
-          worth doing: getting five services to actually talk to each other in
-          real time, not just processing a static file.
+          The full stack runs as a Docker Compose environment, including Kafka, Zookeeper, Spark, MySQL, and Kafka UI, providing a reproducible local streaming environment.
         </p>
 
         <div class="link-row" style="margin-top:8px;">
