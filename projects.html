@@ -170,8 +170,9 @@ erDiagram
           scrubbed for privacy. A hash of distinguishing columns still produced duplicate keys
           (up to 56 collisions on identical loan terms), which caused a join explosion in
           <code>fct_loans</code> against three dimension tables. Adding
-          <code>row_number() over (partition by loan_hash)</code> into the hash guarantees
-          to the hash makes the surrogate key deterministic and unique within the transformed dataset, rather than relying on collision probability.
+          <code>row_number() over (partition by loan_hash)</code> to the hash makes the
+          surrogate key deterministic and unique within the transformed dataset, rather than
+          relying on collision probability.
         </p>
 
         <p class="section-label">data quality</p>
@@ -339,7 +340,7 @@ sequenceDiagram
           A yearlong Data Engineer internship at <strong>Euronext Securities Milan</strong>
           (the Central Securities Depository behind <strong>Borsa Italiana</strong>, the
           Italian Stock Exchange), formalized into my MSc thesis: redesigning a
-          redesigning a liquidity monitoring tool used by institutional treasury teams,
+          liquidity monitoring tool used by institutional treasury teams,
           migrating it from on-premises infrastructure to an event-driven AWS architecture.
         </p>
 
@@ -523,8 +524,8 @@ flowchart LR
     </div>
 
     <p style="font-size:13px; color:var(--text-dim); margin-top:8px;">
-      More projects — including a Spotify AWS ETL pipeline and other data/ML work —
-      are on <a href="https://github.com/gyngwon" target="_blank" rel="noopener">github.com/gyngwon</a>.
+      <a href="https://github.com/gyngwon" target="_blank" rel="noopener">More on GitHub →</a>
+      Additional data engineering and ML work is available on my GitHub.
     </p>
   </div>
 </main>
